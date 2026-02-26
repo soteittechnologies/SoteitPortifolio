@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Soteit Technologies</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   SOTEIT PORTFOLIO — STANDALONE PAGE
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  --green:       #2ea84f;
+  --green-light: #3ed465;
+  --green-dim:   rgba(46,168,79,0.12);
+  --green-line:  rgba(46,168,79,0.25);
+  --black:       #080a08;
+  --surface:     #101410;
+  --card:        #131813;
+  --border:      rgba(255,255,255,0.07);
+  --text:        #dceadc;
+  --muted:       #6b836b;
+  --white:       #ffffff;
+  --radius:      14px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Subtle grain overlay ───────────────────────── */
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9999; opacity:.5;
+}
+
+/* ── NAV ─────────────────────────────────────────── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  padding:18px 56px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(8,10,8,.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+
+.nav-logo {
+  display:flex; align-items:center; gap:10px;
+  text-decoration:none;
+}
+.nav-logo img {
+  height:36px; width:36px; object-fit:contain;
+  filter:drop-shadow(0 0 8px rgba(46,168,79,.45));
+}
+.nav-logo-text { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; color:var(--white); }
+.nav-logo-text em { color:var(--green); font-style:normal; }
+
+.nav-back {
+  display:inline-flex; align-items:center; gap:8px;
+  color:var(--muted); text-decoration:none; font-size:.85rem;
+  transition:color .25s;
+}
+.nav-back:hover { color:var(--green-light); }
+.nav-back svg { transition:transform .25s; }
+.nav-back:hover svg { transform:translateX(-3px); }
+
+/* ── HERO ─────────────────────────────────────────── */
+.hero {
+  padding:140px 56px 70px;
+  position:relative; overflow:hidden;
+}
+
+.hero-grid-bg {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(46,168,79,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46,168,79,.05) 1px, transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 70% 80% at 50% 0%, black 20%, transparent 75%);
+}
+
+.hero-inner {
+  position:relative; z-index:2;
+  max-width:1240px; margin:0 auto;
+  display:flex; align-items:flex-end; justify-content:space-between; gap:40px;
+  flex-wrap:wrap;
+}
+
+.hero-left {}
+
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'DM Sans',sans-serif; font-size:.72rem;
+  letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--green); margin-bottom:20px;
+}
+.hero-eyebrow::before {
+  content:''; display:block; width:28px; height:1px; background:var(--green);
+}
+
+.hero h1 {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(3rem,5.5vw,5rem);
+  font-weight:800; line-height:1.0;
+  letter-spacing:-2px; color:var(--white);
+}
+.hero h1 .slash { color:var(--green); }
+.hero h1 .dim   { color:var(--muted); font-weight:400; }
+
+.hero-right {
+  max-width:380px;
+}
+.hero-right p {
+  color:var(--muted); line-height:1.75; font-size:.95rem;
+  border-left:2px solid var(--green-line); padding-left:18px;
+}
+
+/* ── STATS ROW ────────────────────────────────────── */
+.stats-row {
+  max-width:1240px; margin:0 auto 64px;
+  padding:0 56px;
+  display:flex; gap:0;
+  border:1px solid var(--border); border-radius:var(--radius);
+  overflow:hidden;
+}
+.stat {
+  flex:1; padding:28px 32px; text-align:center;
+  border-right:1px solid var(--border);
+}
+.stat:last-child { border-right:none; }
+.stat-n {
+  display:block; font-family:'Syne',sans-serif;
+  font-size:2rem; font-weight:800; color:var(--green);
+}
+.stat-l {
+  display:block; font-size:.72rem; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--muted); margin-top:4px;
+}
+
+/* ── MAIN LAYOUT ─────────────────────────────────── */
+.portfolio-wrap {
+  max-width:1240px; margin:0 auto;
+  padding:0 56px 120px;
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:48px;
+  align-items:start;
+}
+
+/* ── SIDEBAR FILTERS ─────────────────────────────── */
+.sidebar {
+  position:sticky; top:90px;
+}
+
+.sidebar-title {
+  font-family:'Syne',sans-serif; font-size:.7rem;
+  letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--muted); margin-bottom:20px;
+}
+
+.filter-group { margin-bottom:36px; }
+.filter-group-label {
+  font-size:.68rem; letter-spacing:2px; text-transform:uppercase;
+  color:var(--muted); margin-bottom:10px; display:block;
+  padding-bottom:8px; border-bottom:1px solid var(--border);
+}
+
+.filter-btn {
+  display:flex; align-items:center; justify-content:space-between;
+  width:100%; padding:9px 12px; border-radius:8px;
+  background:transparent; border:none; cursor:pointer;
+  color:var(--muted); font-family:'DM Sans',sans-serif;
+  font-size:.88rem; text-align:left;
+  transition:background .2s, color .2s;
+  margin-bottom:2px;
+}
+.filter-btn:hover { background:rgba(255,255,255,.04); color:var(--text); }
+.filter-btn.active { background:var(--green-dim); color:var(--green-light); }
+.filter-btn .count {
+  font-size:.7rem; background:rgba(255,255,255,.07);
+  padding:2px 7px; border-radius:20px; color:var(--muted);
+}
+.filter-btn.active .count { background:rgba(46,168,79,.2); color:var(--green); }
+
+.sidebar-cta {
+  background:var(--green); color:var(--black);
+  padding:12px 18px; border-radius:8px;
+  font-family:'DM Sans',sans-serif; font-weight:700;
+  font-size:.85rem; text-decoration:none;
+  display:block; text-align:center;
+  transition:background .25s, transform .25s;
+  margin-top:8px;
+}
+.sidebar-cta:hover { background:var(--green-light); transform:translateY(-2px); }
+
+/* ── GRID AREA ────────────────────────────────────── */
+.grid-area {}
+
+.grid-topbar {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:28px; flex-wrap:wrap; gap:12px;
+}
+.grid-count {
+  font-size:.82rem; color:var(--muted);
+}
+.grid-count strong { color:var(--green-light); font-weight:600; }
+
+.view-toggle { display:flex; gap:4px; }
+.view-btn {
+  width:34px; height:34px; border-radius:7px;
+  background:transparent; border:1px solid var(--border);
+  color:var(--muted); cursor:pointer; font-size:.9rem;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s;
+}
+.view-btn.active, .view-btn:hover {
+  background:var(--green-dim); border-color:var(--green-line); color:var(--green-light);
+}
+
+/* ── PORTFOLIO GRID ──────────────────────────────── */
+.portfolio-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  transition:opacity .3s;
+}
+.portfolio-grid.list-view {
+  grid-template-columns:1fr;
+}
+
+/* card */
+.pf-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden; cursor:pointer;
+  transition:transform .35s cubic-bezier(.25,.46,.45,.94),
+             border-color .35s, box-shadow .35s,
+             opacity .3s, height .3s;
+}
+.pf-card:hover {
+  transform:translateY(-7px);
+  border-color:var(--green-line);
+  box-shadow:0 30px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(46,168,79,.1);
+}
+.pf-card.hidden { display:none; }
+
+/* thumb */
+.pf-thumb {
+  position:relative; overflow:hidden;
+  height:210px;
+}
+.pf-thumb img {
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+  transition:transform .55s cubic-bezier(.25,.46,.45,.94);
+}
+.pf-thumb.logo-bg img   { object-fit:contain; padding:28px; background:#fff; }
+.pf-thumb.dark-bg       { background:var(--surface); }
+.pf-thumb.dark-bg img   { object-fit:contain; padding:20px; }
+
+.pf-card:hover .pf-thumb img { transform:scale(1.07); }
+
+/* hover overlay */
+.pf-thumb-overlay {
+  position:absolute; inset:0;
+  background:rgba(8,10,8,.72);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .3s;
+}
+.pf-card:hover .pf-thumb-overlay { opacity:1; }
+.thumb-zoom {
+  width:50px; height:50px; border-radius:50%;
+  background:var(--green); color:var(--black);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem;
+  transform:scale(.6); transition:transform .3s;
+}
+.pf-card:hover .thumb-zoom { transform:scale(1); }
+
+/* category pill on thumb */
+.pf-cat-pill {
+  position:absolute; top:12px; left:12px;
+  background:rgba(8,10,8,.82); backdrop-filter:blur(8px);
+  border:1px solid var(--border); border-radius:100px;
+  font-size:.62rem; letter-spacing:1.5px; text-transform:uppercase;
+  padding:4px 10px; color:var(--green); font-family:'DM Sans',sans-serif;
+}
+
+/* card body */
+.pf-body { padding:18px 20px 20px; }
+.pf-body-top {
+  display:flex; align-items:flex-start;
+  justify-content:space-between; gap:10px; margin-bottom:8px;
+}
+.pf-body h4 {
+  font-family:'Syne',sans-serif; font-weight:700;
+  font-size:.97rem; color:var(--white); line-height:1.3;
+}
+.pf-arrow {
+  width:30px; height:30px; flex-shrink:0;
+  border-radius:50%; background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--muted); font-size:.8rem;
+  transition:background .25s, color .25s, transform .25s;
+}
+.pf-card:hover .pf-arrow {
+  background:var(--green); color:var(--black); transform:rotate(45deg);
+}
+.pf-body p { font-size:.8rem; color:var(--muted); line-height:1.55; }
+
+/* emoji placeholder */
+.pf-emoji {
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:3.5rem;
+  background:linear-gradient(135deg,rgba(46,168,79,.1),rgba(8,10,8,.7));
+}
+
+/* LIST VIEW card style */
+.portfolio-grid.list-view .pf-card { display:flex; }
+.portfolio-grid.list-view .pf-thumb { width:200px; flex-shrink:0; height:auto; min-height:140px; }
+.portfolio-grid.list-view .pf-body  { flex:1; display:flex; flex-direction:column; justify-content:center; padding:24px 28px; }
+
+/* ── ADD NEW CARD ─────────────────────────────────── */
+.pf-add-card {
+  border:2px dashed rgba(46,168,79,.18);
+  border-radius:var(--radius);
+  min-height:280px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:14px; padding:32px; text-align:center;
+  transition:border-color .3s;
+}
+.pf-add-card:hover { border-color:rgba(46,168,79,.35); }
+.add-icon {
+  width:52px; height:52px; border-radius:50%;
+  background:var(--green-dim); border:1px solid var(--green-line);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.5rem; color:var(--green);
+}
+.pf-add-card h5 { color:var(--text); font-family:'Syne',sans-serif; font-size:1rem; }
+.pf-add-card p  { color:var(--muted); font-size:.82rem; line-height:1.6; max-width:200px; }
+.pf-add-card code {
+  background:var(--green-dim); border:1px solid var(--green-line);
+  color:var(--green-light); font-size:.7rem; padding:5px 12px; border-radius:5px;
+}
+
+/* ── LIGHTBOX ─────────────────────────────────────── */
+.lightbox {
+  position:fixed; inset:0; z-index:8000;
+  background:rgba(4,6,4,.95); backdrop-filter:blur(16px);
+  display:flex; align-items:center; justify-content:center;
+  padding:24px; opacity:0; pointer-events:none;
+  transition:opacity .3s;
+}
+.lightbox.open { opacity:1; pointer-events:all; }
+
+.lb-inner {
+  background:var(--card); border:1px solid rgba(46,168,79,.2);
+  border-radius:18px; overflow:hidden;
+  max-width:900px; width:100%; max-height:92vh;
+  display:grid; grid-template-columns:1fr 340px;
+  transform:translateY(20px) scale(.97);
+  transition:transform .35s cubic-bezier(.25,.46,.45,.94);
+}
+.lightbox.open .lb-inner { transform:none; }
+
+.lb-media {
+  position:relative; overflow:hidden;
+  background:#fff; min-height:400px;
+  display:flex; align-items:center; justify-content:center;
+}
+.lb-media.dark { background:var(--surface); }
+.lb-media img {
+  width:100%; height:100%;
+  object-fit:contain; max-height:70vh;
+  display:block;
+}
+
+.lb-info {
+  padding:36px 32px;
+  display:flex; flex-direction:column;
+  border-left:1px solid var(--border);
+  overflow-y:auto;
+}
+.lb-cat {
+  font-size:.65rem; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--green); margin-bottom:16px; display:block;
+}
+.lb-info h3 {
+  font-family:'Syne',sans-serif; font-weight:800;
+  font-size:1.4rem; color:var(--white); line-height:1.2;
+  margin-bottom:16px;
+}
+.lb-info p {
+  color:var(--muted); font-size:.9rem; line-height:1.75;
+  flex:1; margin-bottom:28px;
+}
+.lb-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+.lb-tag {
+  background:var(--green-dim); border:1px solid var(--green-line);
+  color:var(--text); font-size:.72rem; padding:5px 12px; border-radius:100px;
+}
+.lb-cta {
+  background:var(--green); color:var(--black);
+  padding:13px 20px; border-radius:8px;
+  font-weight:700; font-size:.9rem; text-decoration:none;
+  text-align:center; transition:background .25s;
+  display:block;
+}
+.lb-cta:hover { background:var(--green-light); }
+
+.lb-close {
+  position:absolute; top:16px; right:16px; z-index:2;
+  width:38px; height:38px; border-radius:50%;
+  background:rgba(0,0,0,.55); border:1px solid var(--border);
+  color:var(--text); font-size:1rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s;
+}
+.lb-close:hover { background:rgba(0,0,0,.8); }
+
+/* ── HOW TO ADD — developer tip box ────────────────── */
+.dev-tip {
+  max-width:1240px; margin:0 auto 60px;
+  padding:0 56px;
+}
+.dev-tip-inner {
+  background:rgba(46,168,79,.06); border:1px dashed rgba(46,168,79,.25);
+  border-radius:12px; padding:24px 28px;
+  display:flex; align-items:flex-start; gap:18px;
+}
+.dev-tip-icon { font-size:1.4rem; flex-shrink:0; margin-top:2px; }
+.dev-tip h5 {
+  font-family:'Syne',sans-serif; font-size:.85rem; color:var(--green-light);
+  margin-bottom:6px;
+}
+.dev-tip p { font-size:.8rem; color:var(--muted); line-height:1.7; }
+.dev-tip code {
+  background:rgba(0,0,0,.4); border:1px solid rgba(46,168,79,.2);
+  color:var(--green-light); font-size:.75rem; padding:2px 7px; border-radius:4px;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────── */
+@media(max-width:1024px){
+  nav { padding:16px 24px; }
+  .hero { padding:120px 24px 60px; }
+  .stats-row { margin:0 24px 48px; }
+  .portfolio-wrap { padding:0 24px 80px; grid-template-columns:1fr; }
+  .sidebar { position:static; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .sidebar-title,.filter-group-label { display:none; }
+  .filter-group { margin:0; display:flex; flex-wrap:wrap; gap:6px; }
+  .filter-btn { padding:8px 16px; border-radius:100px; border:1px solid var(--border); }
+  .dev-tip { padding:0 24px; }
+}
+@media(max-width:640px){
+  .portfolio-grid { grid-template-columns:1fr; }
+  .hero h1 { letter-spacing:-1px; }
+  .stats-row { flex-wrap:wrap; }
+  .stat { flex:1 1 45%; }
+  .lb-inner { grid-template-columns:1fr; }
+  .lb-media { min-height:220px; }
+  .lb-info { border-left:none; border-top:1px solid var(--border); }
+}
+
+/* ── ANIMATIONS ───────────────────────────────────── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+.fade-up { opacity:0; animation:fadeUp .65s ease forwards; }
+.fade-up:nth-child(1){animation-delay:.05s}
+.fade-up:nth-child(2){animation-delay:.1s}
+.fade-up:nth-child(3){animation-delay:.15s}
+.fade-up:nth-child(4){animation-delay:.2s}
+.fade-up:nth-child(5){animation-delay:.25s}
+.fade-up:nth-child(6){animation-delay:.3s}
+.fade-up:nth-child(7){animation-delay:.35s}
+.fade-up:nth-child(8){animation-delay:.4s}
+.fade-up:nth-child(9){animation-delay:.45s}
+.scroll-reveal { opacity:0; transform:translateY(28px); transition:opacity .65s ease, transform .65s ease; }
+.scroll-reveal.visible { opacity:1; transform:none; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAV
+══════════════════════════════════════ -->
+<nav>
+  <a href="soteit_website.html" class="nav-logo">
+    <img src="SOTEIT LOGO.png" alt="Soteit">
+    <span class="nav-logo-text">sote<em>IT</em></span>
+  </a>
+  <a href="soteit_website.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M8.5 2L3.5 7L8.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    Back to Site
+  </a>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Soteit Technologies</div>
+      <h1>
+        Our<br>
+        <span class="slash">Work</span><br>
+        <span class="dim">Portfolio</span>
+      </h1>
+    </div>
+    <div class="hero-right">
+      <p>Real projects, real clients — logos, brand identities, websites, software and more. Everything you see here was crafted with intention and delivered with pride.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════
+     STATS
+══════════════════════════════════════ -->
+<div class="stats-row scroll-reveal">
+  <div class="stat"><span class="stat-n" data-target="9">0</span><span class="stat-l">Projects Shown</span></div>
+  <div class="stat"><span class="stat-n" data-target="5">0</span><span class="stat-l">Categories</span></div>
+  <div class="stat"><span class="stat-n" data-target="150">0</span><span class="stat-l">Total Delivered</span></div>
+  <div class="stat"><span class="stat-n">5+</span><span class="stat-l">Years Active</span></div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     MAIN: SIDEBAR + GRID
+══════════════════════════════════════ -->
+<div class="portfolio-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <p class="sidebar-title">Filter Work</p>
+
+    <div class="filter-group">
+      <span class="filter-group-label">By Category</span>
+      <button class="filter-btn active" data-filter="all">All Projects <span class="count" id="cnt-all">9</span></button>
+      <button class="filter-btn" data-filter="logo">Logo Design <span class="count" id="cnt-logo">4</span></button>
+      <button class="filter-btn" data-filter="branding">Branding <span class="count" id="cnt-branding">2</span></button>
+      <button class="filter-btn" data-filter="graphic">Graphics & Print <span class="count" id="cnt-graphic">1</span></button>
+      <button class="filter-btn" data-filter="web">Web Dev <span class="count" id="cnt-web">2</span></button>
+      <button class="filter-btn" data-filter="software">Software <span class="count" id="cnt-software">1</span></button>
+      <button class="filter-btn" data-filter="it">IT Support <span class="count" id="cnt-it">1</span></button>
+    </div>
+
+    <a href="soteit_website.html#contact" class="sidebar-cta">Start a Project →</a>
+  </aside>
+
+  <!-- GRID -->
+  <main class="grid-area">
+    <div class="grid-topbar scroll-reveal">
+      <p class="grid-count">Showing <strong id="vis-count">9</strong> projects</p>
+      <div class="view-toggle">
+        <button class="view-btn active" id="btn-grid" title="Grid view">⊞</button>
+        <button class="view-btn" id="btn-list" title="List view">☰</button>
+      </div>
+    </div>
+
+    <!--
+    ╔════════════════════════════════════════════════════════════════╗
+    ║  PORTFOLIO CARDS — ADD NEW WORK HERE                          ║
+    ║  data-cat options: logo | branding | graphic | web | software | it
+    ║  data-thumb-type: logo-bg (white) | dark-bg | cover (default) ║
+    ╚════════════════════════════════════════════════════════════════╝
+    -->
+    <div class="portfolio-grid" id="portfolio-grid">
+
+      <!-- ─── LOGO DESIGN ───────────────────────────────────────── -->
+
+      <!-- Akisi Ya Thamani Foundation -->
+      <div class="pf-card fade-up"
+           data-cat="logo"
+           data-title="Akisi Ya Thamani Foundation"
+           data-desc="A bold emblem-style logo built around the ATF monogram, a rising sun representing knowledge and opportunity, and an open book symbolising lifelong learning. Delivered for an educational foundation with a mission to create lasting social impact."
+           data-tags="Logo Design, Emblem, Foundation, Education"
+           data-imgbg="white">
+        <div class="pf-thumb logo-bg">
+          <img src="ATF LOGO.jpg" alt="ATF Logo">
+          <div class="pf-thumb-overlay"><div class="thumb-zoom">🔍</div></div>
+          <span class="pf-cat-pill">Logo Design</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-body-top">
+            <h4>Akisi Ya Thamani Foundation</h4>
+            <div class="pf-arrow">↗</div>
+          </div>
+          <p>Foundation • Emblem Logo</p>
+        </div>
+      </div>
+
+      <!-- Mshikamano Group -->
+      <div class="pf-card fade-up"
+           data-cat="logo"
+           data-title="Mshikamano Group"
+           data-desc="A meaningful lettermark logo merging the initials MG with a seedling growing from a nurturing hand — communicating solidarity, sustainability and collective growth. The earthy colour palette reinforces the brand's connection to community and agriculture."
+           data-tags="Logo Design, Lettermark, Agriculture, Community"
+           data-imgbg="white">
+        <div class="pf-thumb logo-bg">
+          <img src="MG LOGO.jpg" alt="Mshikamano Group Logo">
+          <div class="pf-thumb-overlay"><div class="thumb-zoom">🔍</div></div>
+          <span class="pf-cat-pill">Logo Design</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-body-top">
+            <h4>Mshikamano Group</h4>
+            <div class="pf-arrow">↗</div>
+          </div>
+          <p>Business Group • Lettermark Logo</p>
+        </div>
+      </div>
+
+      <!-- Idriss Outfit -->
+      <div class="pf-card fade-up"
+           data-cat="logo branding"
+           data-title="Idriss Outfit"
+           data-desc="A sleek circular brand identity for a fashion retailer — featuring a clean monogram mark and a dynamic promotional design surrounding it with the brand's products. The bold blue palette communicates confidence, style and energy."
+           data-tags="Logo Design, Brand Identity, Fashion, Social Media"
+           data-imgbg="dark">
+        <div class="pf-thumb dark-bg">
+          <img src="IO LOGO.jpeg" alt="Idriss Outfit Brand">
+          <div class="pf-thumb-overlay"><div class="thumb-zoom">🔍</div></div>
+          <span class="pf-cat-pill">Logo + Branding</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-body-top">
+            <h4>Idriss Outfit</h4>
+            <div class="pf-arrow">↗</div>
+          </div>
+          <p>Fashion Retail • Brand Identity</p>
+        </div>
+      </div>
+
+      <!-- Muhsin Boss Furniture (visible in promo poster) -->
+      <div class="pf-card fade-up"
+           data-cat="logo"
+           data-title="Muhsin Boss Furniture"
+           data-desc="A warm, elegant logo for a furniture brand using a stylised sofa icon with rich brown tones. The design communicates quality craftsmanship, reliability and domestic comfort — helping the brand stand out in a competitive local market."
+           data-tags="Logo Design, Icon Mark, Furniture, Retail"
+           data-imgbg="white">
+        <div class="pf-thumb logo-bg" style="background:#f7f3ee;">
+          <img src="SOTEIT LOGO POSTER.jpg"
+               alt="Muhsin Boss Furniture Logo"
+               style="object-position:15% 55%;">
+          <div class="pf-thumb-overlay"><div class="thumb-zoom">🔍</div></div>
+          <span class="pf-cat-pill">Logo Design</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-body-top">
+            <h4>Muhsin Boss Furniture</h4>
+            <div class="pf-arrow">↗</div>
+          </div>
+          <p>Furniture Brand • Icon Logo</p>
+        </div>
+      </div>
+
+      <!-- ─── BRANDING / GRAPHIC ────────────────────────────────── -->
+
+      <!-- Logo Service Promo Poster -->
+      <div class="pf-card fade-up"
+           data-cat="branding graphic"
+           data-title="Logo Service Promo Poster"
+           data-desc="A high-impact social media promotional poster for Soteit Technologies showcasing logo design services to potential clients. Designed specifically for Instagram — combining multiple client logos, a human model, and a clear call to action to drive inquiries."
+           data-tags="Graphic Design, Social Media, Marketing, Poster"
+           data-imgbg="dark">
+        <div class="pf-thumb" style="height:240px;">
+          <img src="SOTEIT LOGO POSTER.jpg" alt="Logo Promo Poster" style="object-fit:cover;">
+          <div class="pf-thumb-overlay"><div class="thumb-zoom">🔍</div></div>
+          <span class="pf-cat-pill">Graphic Design</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-body-top">
+            <h4>Logo Service Promo Poster</h4>
+            <div class="pf-arrow">↗</div>
+          </div>
+          <p>Social Media Marketing • Print Design</p>
+        </div>
+      </div>
+
+      <!-- ─── WEB DEVELOPMENT ───────────────────────────────────── -->
+
+      <!-- E-Commerce -->
+      <div class="pf-card fade-up"
+           data-cat="web"
+           data-title="E-Commerce Platform"
+           data-desc="A full-featured online store built with a modern tech stack — product catalogue, cart, mobile payments integration (M-Pesa / card), and a real-time admin dashboard for inventory and order management."
+           data-tags="Web Development, E-Commerce, Full Stack, Mobile Payments"
+           data-imgbg="dark"
+           data-emoji="🛒">
+        <div class="pf-thumb dark-bg">
+          <div class="pf-emoji">🛒</div>
+          <div class="pf-thumb-overlay"><div class="thumb-zoom">🔍</div></div>
+          <span class="pf-cat-pill">Web Dev</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-body-top">
+            <h4>E-Commerce Platform</h4>
+            <div class="pf-arrow">↗</div>
+          </div>
+          <p>Retail • Full-Stack Web Application</p>
+        </div>
+      </div>
+
+      <!-- LMS -->
+      <div class="pf-card fade-up"
+           data-cat="web software"
+           data-title="Learning Management System"
+           data-desc="An educational web platform built for schools and online educators — featuring course creation, student enrolment, quizzes, progress tracking, and automatic certificate generation."
+           data-tags="Web Development, EdTech, LMS, Software"
+           data-imgbg="dark"
+           data-emoji="🎓">
+        <div class="pf-thumb dark-bg">
+          <div class="pf-emoji">🎓</div>
+          <div class="pf-thumb-overlay"><div class="thumb-zoom">🔍</div></div>
+          <span class="pf-cat-pill">Web + Software</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-body-top">
+            <h4>Learning Management System</h4>
+            <div class="pf-arrow">↗</div>
+          </div>
+          <p>Education • Web Platform</p>
+        </div>
+      </div>
+
+      <!-- ─── SOFTWARE ──────────────────────────────────────────── -->
+
+      <!-- Business App -->
+      <div class="pf-card fade-up"
+           data-cat="software"
+           data-title="Business Management App"
+           data-desc="A custom desktop application for SMEs covering inventory tracking, invoicing, client records, and financial reporting. Dramatically reduced manual admin time and improved data accuracy for the client."
+           data-tags="Software, Desktop App, Inventory, Invoicing"
+           data-imgbg="dark"
+           data-emoji="📊">
+        <div class="pf-thumb dark-bg">
+          <div class="pf-emoji">📊</div>
+          <div class="pf-thumb-overlay"><div class="thumb-zoom">🔍</div></div>
+          <span class="pf-cat-pill">Software</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-body-top">
+            <h4>Business Management App</h4>
+            <div class="pf-arrow">↗</div>
+          </div>
+          <p>SME Tools • Desktop Application</p>
+        </div>
+      </div>
+
+      <!-- ─── IT SUPPORT ─────────────────────────────────────────── -->
+
+      <!-- Network Setup -->
+      <div class="pf-card fade-up"
+           data-cat="it"
+           data-title="Office Network Infrastructure"
+           data-desc="Full network infrastructure design and installation for a 50-person office — structured cabling, full Wi-Fi coverage, firewall configuration, and server setup. Includes ongoing monitoring and maintenance support."
+           data-tags="IT Support, Networking, Infrastructure, Maintenance"
+           data-imgbg="dark"
+           data-emoji="🔧">
+        <div class="pf-thumb dark-bg">
+          <div class="pf-emoji">🔧</div>
+          <div class="pf-thumb-overlay"><div class="thumb-zoom">🔍</div></div>
+          <span class="pf-cat-pill">IT Support</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-body-top">
+            <h4>Office Network Infrastructure</h4>
+            <div class="pf-arrow">↗</div>
+          </div>
+          <p>Corporate • Network Design & Setup</p>
+        </div>
+      </div>
+
+      <!-- ─── ADD MORE PLACEHOLDER ──────────────────────────────── -->
+      <div class="pf-add-card" id="add-card">
+        <div class="add-icon">＋</div>
+        <h5>More Coming Soon</h5>
+        <p>New client work added regularly. Follow us on Instagram to see the latest.</p>
+        <code>@soteittechnologies</code>
+      </div>
+
+    </div><!-- /.portfolio-grid -->
+  </main>
+</div><!-- /.portfolio-wrap -->
+
+<!-- ══════════════════════════════════════
+     LIGHTBOX
+══════════════════════════════════════ -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-inner">
+    <div class="lb-media" id="lb-media">
+      <img src="" alt="" id="lb-img">
+      <button class="lb-close" id="lb-close">✕</button>
+    </div>
+    <div class="lb-info">
+      <span class="lb-cat" id="lb-cat"></span>
+      <h3 id="lb-title"></h3>
+      <p id="lb-desc"></p>
+      <div class="lb-tags" id="lb-tags"></div>
+      <a href="soteit_website.html#contact" class="lb-cta">Get Something Like This →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  PORTFOLIO JS
+// ═══════════════════════════════════════════════════════
+
+const grid      = document.getElementById('portfolio-grid');
+const allCards  = Array.from(grid.querySelectorAll('.pf-card'));
+const filterBtns= document.querySelectorAll('.filter-btn');
+const visCount  = document.getElementById('vis-count');
+const lightbox  = document.getElementById('lightbox');
+const lbImg     = document.getElementById('lb-img');
+const lbMedia   = document.getElementById('lb-media');
+const lbCat     = document.getElementById('lb-cat');
+const lbTitle   = document.getElementById('lb-title');
+const lbDesc    = document.getElementById('lb-desc');
+const lbTagsEl  = document.getElementById('lb-tags');
+const lbClose   = document.getElementById('lb-close');
+const btnGrid   = document.getElementById('btn-grid');
+const btnList   = document.getElementById('btn-list');
+
+// ── Count cards per category ─────────────────────────
+function recountBadges() {
+  const map = { logo:0, branding:0, graphic:0, web:0, software:0, it:0 };
+  allCards.forEach(c => {
+    (c.dataset.cat || '').split(' ').forEach(cat => {
+      if (map[cat] !== undefined) map[cat]++;
+    });
+  });
+  Object.entries(map).forEach(([k, v]) => {
+    const el = document.getElementById('cnt-' + k);
+    if (el) el.textContent = v;
+  });
+  document.getElementById('cnt-all').textContent = allCards.length;
+}
+recountBadges();
+
+// ── Update visible count ─────────────────────────────
+function updateCount() {
+  const n = allCards.filter(c => !c.classList.contains('hidden')).length;
+  visCount.textContent = n;
+}
+
+// ── Filter ───────────────────────────────────────────
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    allCards.forEach(card => {
+      const cats = (card.dataset.cat || '').split(' ');
+      card.classList.toggle('hidden', f !== 'all' && !cats.includes(f));
+    });
+    updateCount();
+  });
+});
+
+// ── View toggle ──────────────────────────────────────
+btnGrid.addEventListener('click', () => {
+  grid.classList.remove('list-view');
+  btnGrid.classList.add('active');
+  btnList.classList.remove('active');
+});
+btnList.addEventListener('click', () => {
+  grid.classList.add('list-view');
+  btnList.classList.add('active');
+  btnGrid.classList.remove('active');
+});
+
+// ── Lightbox ─────────────────────────────────────────
+function openLightbox(card) {
+  const imgEl = card.querySelector('.pf-thumb img');
+  const bg    = card.dataset.imgbg;
+
+  if (imgEl) {
+    lbImg.src = imgEl.src;
+    lbImg.style.objectFit = imgEl.style.objectFit || 'contain';
+    lbImg.style.objectPosition = imgEl.style.objectPosition || 'center';
+    lbImg.style.display = 'block';
+    lbMedia.className = 'lb-media' + (bg === 'dark' ? ' dark' : '');
+  } else {
+    lbImg.style.display = 'none';
+    lbMedia.className = 'lb-media dark';
+  }
+
+  lbCat.textContent   = card.dataset.cat.split(' ').map(s => s.charAt(0).toUpperCase()+s.slice(1)).join(' / ');
+  lbTitle.textContent = card.dataset.title || '';
+  lbDesc.textContent  = card.dataset.desc  || '';
+
+  lbTagsEl.innerHTML = '';
+  (card.dataset.tags || '').split(',').forEach(tag => {
+    const s = tag.trim();
+    if (s) {
+      const span = document.createElement('span');
+      span.className = 'lb-tag';
+      span.textContent = s;
+      lbTagsEl.appendChild(span);
+    }
+  });
+
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+allCards.forEach(c => c.addEventListener('click', () => openLightbox(c)));
+lbClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// ── Scroll reveal ─────────────────────────────────────
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.scroll-reveal').forEach(el => revealObs.observe(el));
+
+// ── Animated counters ─────────────────────────────────
+const counterObs = new IntersectionObserver(entries => {
+  if (!entries[0].isIntersecting) return;
+  document.querySelectorAll('[data-target]').forEach(el => {
+    const target = +el.dataset.target;
+    const dur = 1400, step = target / (dur / 16);
+    let cur = 0;
+    const t = setInterval(() => {
+      cur += step;
+      if (cur >= target) { el.textContent = target + (target === 150 ? '+' : ''); clearInterval(t); }
+      else el.textContent = Math.floor(cur);
+    }, 16);
+  });
+  counterObs.disconnect();
+}, { threshold: 0.4 });
+const statsRow = document.querySelector('.stats-row');
+if (statsRow) counterObs.observe(statsRow);
+
+updateCount();
+</script>
+</body>
+</html>
